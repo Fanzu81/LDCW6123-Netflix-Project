@@ -12,16 +12,17 @@ struct Movie {
 };
 
 void displayMovie(const Movie& m) {
-    cout << "\nTitle: " << m.title << endl;
-    cout << "Year: " << m.year << endl;
-    cout << "Genre: " << m.genre << endl;
-    cout << "Language: " << m.language << endl;
+    cout << "\n----------------------------------------" << endl;
+    cout << "Title     : " << m.title << endl;
+    cout << "Year      : " << m.year << endl;
+    cout << "Genre     : " << m.genre << endl;
+    cout << "Language  : " << m.language << endl;
     cout << "Age Rating: " << m.ageRating << endl;
-    cout << "Synopsis: " << m.synopsis << endl;
+    cout << "Synopsis  : " << m.synopsis << endl;
+    cout << "----------------------------------------" << endl;
 }
 
 int main() {
-
     const int movieCount = 8;
     Movie movies[movieCount] = {
         {"Munafik", 2016, "Horror", "Malay", "18", "A man questions his faith after a supernatural event forces him to confront his past."},
@@ -34,87 +35,93 @@ int main() {
         {"Ne Zha", 2019, "Animation", "Chinese", "PG", "A mischievous young boy born with immense power must decide whether to embrace his destiny."}
     };
 
-    int searchChoice;
+    int searchChoice = 0;
 
-    cout << "===========================" << endl;
-    cout << " MOVIE RECOMMENDATION SITE " << endl;
-    cout << "===========================" << endl;
+    do {
+        cout << "\n===========================" << endl;
+        cout << " MOVIE RECOMMENDATION SITE " << endl;
+        cout << "===========================" << endl;
+        cout << "1. Movie Title" << endl;
+        cout << "2. Release Year" << endl;
+        cout << "3. Genre" << endl;
+        cout << "4. Language" << endl;
+        cout << "5. Age Rating" << endl;
+        cout << "6. Exit Program" << endl;
 
-    cout << "\nWhat would like to search for?" << endl;
-    cout << "1. Movie Title" << endl;
-    cout << "2. Release Year" << endl;
-    cout << "3. Genre" << endl;
-    cout << "4. Language" << endl;
-    cout << "5. Age Rating" << endl;
+        cout << "\nEnter your choice: ";
+        cin >> searchChoice;
+        cin.ignore();
 
-    cout << "\nEnter your choice: ";
-    cin >> searchChoice;
-    cin.ignore(); // clear leftover newline so getline works properly next
+        bool found = false;
 
-    bool found = false;
-
-    if (searchChoice == 1) {
-        string query;
-        cout << "Enter movie title: ";
-        getline(cin, query);
-        for (int i = 0; i < movieCount; i++) {
-            if (movies[i].title == query) {
-                displayMovie(movies[i]);
-                found = true;
+        if (searchChoice == 1) {
+            string query;
+            cout << "Enter movie title: ";
+            getline(cin, query);
+            for (int i = 0; i < movieCount; i++) {
+                if (movies[i].title == query) {
+                    displayMovie(movies[i]);
+                    found = true;
+                }
             }
         }
-    }
-    else if (searchChoice == 2) {
-        int query;
-        cout << "Enter release year: ";
-        cin >> query;
-        for (int i = 0; i < movieCount; i++) {
-            if (movies[i].year == query) {
-                displayMovie(movies[i]);
-                found = true;
+        else if (searchChoice == 2) {
+            int query;
+            cout << "Enter release year: ";
+            cin >> query;
+            for (int i = 0; i < movieCount; i++) {
+                if (movies[i].year == query) {
+                    displayMovie(movies[i]);
+                    found = true;
+                }
             }
         }
-    }
-    else if (searchChoice == 3) {
-        string query;
-        cout << "Enter genre: ";
-        getline(cin, query);
-        for (int i = 0; i < movieCount; i++) {
-            if (movies[i].genre == query) {
-                displayMovie(movies[i]);
-                found = true;
+        else if (searchChoice == 3) {
+            string query;
+            cout << "Enter genre: ";
+            getline(cin, query);
+            for (int i = 0; i < movieCount; i++) {
+                if (movies[i].genre == query) {
+                    displayMovie(movies[i]);
+                    found = true;
+                }
             }
         }
-    }
-    else if (searchChoice == 4) {
-        string query;
-        cout << "Enter language: ";
-        getline(cin, query);
-        for (int i = 0; i < movieCount; i++) {
-            if (movies[i].language == query) {
-                displayMovie(movies[i]);
-                found = true;
+        else if (searchChoice == 4) {
+            string query;
+            cout << "Enter language: ";
+            getline(cin, query);
+            for (int i = 0; i < movieCount; i++) {
+                if (movies[i].language == query) {
+                    displayMovie(movies[i]);
+                    found = true;
+                }
             }
         }
-    }
-    else if (searchChoice == 5) {
-        string query;
-        cout << "Enter age rating: ";
-        getline(cin, query);
-        for (int i = 0; i < movieCount; i++) {
-            if (movies[i].ageRating == query) {
-                displayMovie(movies[i]);
-                found = true;
+        else if (searchChoice == 5) {
+            string query;
+            cout << "Enter age rating: ";
+            getline(cin, query);
+            for (int i = 0; i < movieCount; i++) {
+                if (movies[i].ageRating == query) {
+                    displayMovie(movies[i]);
+                    found = true;
+                }
             }
         }
-    }
-    else {
-        cout << "Invalid choice." << endl;
-    }
+        else if (searchChoice == 6) {
+            cout << "\nExiting application. Goodbye!\n";
+            break;
+        }
+        else {
+            cout << "Invalid choice. Please pick between 1 and 6." << endl;
+        }
 
-    if (!found && searchChoice >= 1 && searchChoice <= 5) {
-        cout << "\nNo matching movie found." << endl;
-    }
+        if (!found && searchChoice >= 1 && searchChoice <= 5) {
+            cout << "\nNo matching movie found." << endl;
+        }
+
+    } while (searchChoice != 6);
 
     return 0;
 }
