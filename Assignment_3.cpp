@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
+#include <set>
+#include <algorithm>
+#include <cctype>
 using namespace std;
-
 struct Movie {
     string title;
     int year;
@@ -20,6 +22,59 @@ void displayMovie(const Movie& m) {
     cout << "Age Rating: " << m.ageRating << endl;
     cout << "Synopsis  : " << m.synopsis << endl;
     cout << "----------------------------------------" << endl;
+}
+
+// Functions to display unique options directly from the database
+void showAvailableYears(const Movie movies[], int count) {
+    set<int> years;
+    for (int i = 0; i < count; i++) years.insert(movies[i].year);
+    cout << "\nAvailable Years:\n";
+    bool first = true;
+    for (int y : years) {
+        if (!first) cout << ", ";
+        cout << y;
+        first = false;
+    }
+    cout << "\n" << endl;
+}
+
+void showAvailableGenres(const Movie movies[], int count) {
+    set<string> genres;
+    for (int i = 0; i < count; i++) genres.insert(movies[i].genre);
+    cout << "\nAvailable Genres:\n";
+    bool first = true;
+    for (const auto& g : genres) {
+        if (!first) cout << ", ";
+        cout << g;
+        first = false;
+    }
+    cout << "\n" << endl;
+}
+
+void showAvailableLanguages(const Movie movies[], int count) {
+    set<string> languages;
+    for (int i = 0; i < count; i++) languages.insert(movies[i].language);
+    cout << "\nAvailable Languages:\n";
+    bool first = true;
+    for (const auto& l : languages) {
+        if (!first) cout << ", ";
+        cout << l;
+        first = false;
+    }
+    cout << "\n" << endl;
+}
+
+void showAvailableAgeRatings(const Movie movies[], int count) {
+    set<string> ratings;
+    for (int i = 0; i < count; i++) ratings.insert(movies[i].ageRating);
+    cout << "\nAvailable Age Ratings:\n";
+    bool first = true;
+    for (const auto& r : ratings) {
+        if (!first) cout << ", ";
+        cout << r;
+        first = false;
+    }
+    cout << "\n" << endl;
 }
 
 int main() {
@@ -67,6 +122,7 @@ int main() {
         }
         else if (searchChoice == 2) {
             int query;
+            showAvailableYears(movies, movieCount); 
             cout << "Enter release year: ";
             cin >> query;
             for (int i = 0; i < movieCount; i++) {
@@ -78,6 +134,7 @@ int main() {
         }
         else if (searchChoice == 3) {
             string query;
+            showAvailableGenres(movies, movieCount);
             cout << "Enter genre: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
@@ -89,6 +146,7 @@ int main() {
         }
         else if (searchChoice == 4) {
             string query;
+            showAvailableLanguages(movies, movieCount);
             cout << "Enter language: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
@@ -100,6 +158,7 @@ int main() {
         }
         else if (searchChoice == 5) {
             string query;
+            showAvailableAgeRatings(movies, movieCount);
             cout << "Enter age rating: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
