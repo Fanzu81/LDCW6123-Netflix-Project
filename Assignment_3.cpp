@@ -3,7 +3,9 @@
 #include <set>
 #include <algorithm>
 #include <cctype>
+
 using namespace std;
+
 struct Movie {
     string title;
     int year;
@@ -12,6 +14,14 @@ struct Movie {
     string ageRating;
     string synopsis;
 };
+
+// Helper function to compare strings case-insensitively
+bool equalsIgnoreCase(const string& a, const string& b) {
+    if (a.size() != b.size()) return false;
+    return equal(a.begin(), a.end(), b.begin(), [](char ch1, char ch2) {
+        return tolower(static_cast<unsigned char>(ch1)) == tolower(static_cast<unsigned char>(ch2));
+    });
+}
 
 void displayMovie(const Movie& m) {
     cout << "\n----------------------------------------" << endl;
@@ -42,7 +52,7 @@ void showAvailableGenres(const Movie movies[], int count) {
     set<string> genres;
     for (int i = 0; i < count; i++) genres.insert(movies[i].genre);
     cout << "\nAvailable Genres:\n";
-    bool first = true;
+    bool first = true;  
     for (const auto& g : genres) {
         if (!first) cout << ", ";
         cout << g;
@@ -93,9 +103,9 @@ int main() {
     int searchChoice = 0;
 
     do {
-        cout << "\n===========================" << endl;
-        cout << " MOVIE RECOMMENDATION SITE " << endl;
-        cout << "===========================" << endl;
+        cout << "\n=====================" << endl;
+        cout << "       MOVIE HUB       " << endl;
+        cout << "=======================" << endl;
         cout << "1. Movie Title" << endl;
         cout << "2. Release Year" << endl;
         cout << "3. Genre" << endl;
@@ -104,8 +114,13 @@ int main() {
         cout << "6. Exit Program" << endl;
 
         cout << "\nEnter your choice: ";
-        cin >> searchChoice;
-        cin.ignore();
+        if (!(cin >> searchChoice)) {
+            cin.clear();
+            cin.ignore(10000, '\n');
+            cout << "Invalid input. Please enter a number." << endl;
+            continue;
+        }
+        cin.ignore(10000, '\n');
 
         bool found = false;
 
@@ -114,7 +129,7 @@ int main() {
             cout << "Enter movie title: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
-                if (movies[i].title == query) {
+                if (equalsIgnoreCase(movies[i].title, query)) {
                     displayMovie(movies[i]);
                     found = true;
                 }
@@ -124,12 +139,19 @@ int main() {
             int query;
             showAvailableYears(movies, movieCount); 
             cout << "Enter release year: ";
-            cin >> query;
-            for (int i = 0; i < movieCount; i++) {
-                if (movies[i].year == query) {
-                    displayMovie(movies[i]);
-                    found = true;
+            if (cin >> query) {
+                cin.ignore(10000, '\n'); // Clear remaining newline
+                for (int i = 0; i < movieCount; i++) {
+                    if (movies[i].year == query) {
+                        displayMovie(movies[i]);
+                        found = true;
+                    }
                 }
+            } else {
+                cin.clear();
+                cin.ignore(10000, '\n');
+                cout << "Invalid year input." << endl;
+                continue;
             }
         }
         else if (searchChoice == 3) {
@@ -138,7 +160,7 @@ int main() {
             cout << "Enter genre: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
-                if (movies[i].genre == query) {
+                if (equalsIgnoreCase(movies[i].genre, query)) {
                     displayMovie(movies[i]);
                     found = true;
                 }
@@ -150,7 +172,7 @@ int main() {
             cout << "Enter language: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
-                if (movies[i].language == query) {
+                if (equalsIgnoreCase(movies[i].language, query)) {
                     displayMovie(movies[i]);
                     found = true;
                 }
@@ -162,7 +184,7 @@ int main() {
             cout << "Enter age rating: ";
             getline(cin, query);
             for (int i = 0; i < movieCount; i++) {
-                if (movies[i].ageRating == query) {
+                if (equalsIgnoreCase(movies[i].ageRating, query)) {
                     displayMovie(movies[i]);
                     found = true;
                 }
